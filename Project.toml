@@ -1,0 +1,13 @@
+name = "TaglessTrees"
+uuid = "5c61d39b-7346-4e80-bdfb-528ef82f399c"
+authors = ["Chad Scherrer"]
+version = "0.1.0"
+
+[compat]
+julia = "1.4"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
