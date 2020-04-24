@@ -1,5 +1,6 @@
 module TaglessTrees
 
+
 struct TraverseWith{F,X}
     call :: F
     term :: X
@@ -7,11 +8,15 @@ end
 
 (tw::TraverseWith)(tree) = tree(tw)
 
+export call
+
 function call(f, args...)
     function(tw::TraverseWith) 
         tw.call(f, (arg(tw) for arg in args)...)
     end
 end
+
+export term
 
 function term(x)
     function(tw::TraverseWith)
@@ -19,28 +24,34 @@ function term(x)
     end
 end
 
+export evaluate
+
 evaluate = let
     call = function(f, args...)
-        @show nameof(f)
         return f(args...)
     end
 
     term = function(x)
-        @show x
         return x
     end
 
     TraverseWith(call, term)
 end
 
-# EXAMPLE
+export trace
 
-add(args...) = call(+, args...)
+trace = let
+    call = function(f, args...)
+        println("call(",nameof(f),",...)")
+        return f(args...)
+    end
 
+    term = function(x)
+        println("term(",x,")")
+        return x
+    end
 
-t = add(term(2), term(3))
-evaluate(t)
-
-evaluate(term(2))
+    TraverseWith(call, term)
+end
 
 end # module
